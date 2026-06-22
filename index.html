@@ -4,10 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>المذاق الباهر</title>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <style>
+
+    /* ─── TOKENS ─── */
     :root {
-      --green-dark:   #008000;
+      --green:        #008000;
       --green-mid:    #85B63E;
       --green-light:  #A4D339;
       --orange:       #F7941D;
@@ -15,906 +17,894 @@
       --orange-deep:  #E87D1E;
       --red:          #E31B1B;
       --red-dark:     #B53A2F;
-      --black:        #000000;
+      --black:        #0D0D0D;
       --white:        #FFFFFF;
+      --off-white:    #F8F6F2;
+      --warm-grey:    #EBEBEB;
+      --mid-grey:     #888;
+      --text-body:    #2A2A2A;
+      --text-muted:   #777;
+
+      --font-display: 'Cairo', sans-serif;
+      --font-body:    'Tajawal', sans-serif;
+
+      --radius-sm:  8px;
+      --radius-md:  16px;
+      --radius-lg:  28px;
+      --radius-xl:  40px;
+
+      --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; font-size: 16px; }
 
     body {
-      font-family: 'Tajawal', 'Cairo', sans-serif;
+      font-family: var(--font-body);
       background: var(--white);
-      color: var(--black);
+      color: var(--text-body);
       direction: rtl;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* ─── UTILITIES ─── */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
     }
 
     /* ─── NAVBAR ─── */
-    .navbar {
+    .nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 999;
-      background: rgba(0,0,0,0.92);
-      backdrop-filter: blur(12px);
+      z-index: 100;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease);
+    }
+
+    .nav.scrolled {
+      background: rgba(13,13,13,0.96);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    .nav-inner {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
       padding: 0 40px;
-      height: 72px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 2px solid var(--orange);
     }
 
-    .navbar-logo {
+    .nav-logo {
       display: flex;
       align-items: center;
-      gap: 12px;
-      text-decoration: none;
+      gap: 14px;
     }
 
-    .navbar-logo img {
-      height: 50px;
+    .nav-logo img {
+      height: 42px;
       width: auto;
       object-fit: contain;
     }
 
-    .navbar-logo-text {
+    .nav-logo-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 900;
       color: var(--white);
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      line-height: 1.2;
+      letter-spacing: 0.3px;
     }
 
-    .navbar-logo-text span {
+    .nav-logo-name em {
+      font-style: normal;
       color: var(--orange);
     }
 
     .nav-links {
       display: flex;
-      gap: 32px;
-      list-style: none;
+      align-items: center;
+      gap: 36px;
     }
 
     .nav-links a {
-      color: rgba(255,255,255,0.85);
-      text-decoration: none;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 500;
-      transition: color 0.3s;
-      position: relative;
-      padding-bottom: 4px;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.2px;
+      transition: color 0.25s;
     }
 
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: 0; right: 0;
-      width: 0; height: 2px;
-      background: var(--orange);
-      transition: width 0.3s;
-    }
-
-    .nav-links a:hover { color: var(--orange); }
-    .nav-links a:hover::after { width: 100%; }
+    .nav-links a:hover { color: var(--white); }
 
     .nav-cta {
-      background: linear-gradient(135deg, var(--orange), var(--orange-deep));
+      height: 40px;
+      padding: 0 22px;
+      background: var(--orange);
       color: var(--white) !important;
-      padding: 10px 24px;
-      border-radius: 8px;
       font-weight: 700 !important;
-      transition: transform 0.2s, box-shadow 0.2s !important;
+      font-size: 13px !important;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      transition: background 0.25s, transform 0.2s !important;
     }
 
     .nav-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(247,148,29,0.4);
+      background: var(--orange-deep);
+      transform: translateY(-1px);
     }
 
     .hamburger {
       display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
       background: none;
       border: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
     }
 
     .hamburger span {
       display: block;
-      width: 26px; height: 2px;
+      width: 24px;
+      height: 1.5px;
       background: var(--white);
       transition: all 0.3s;
     }
 
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 68px; left: 0; right: 0;
+      background: rgba(13,13,13,0.98);
+      backdrop-filter: blur(20px);
+      padding: 24px 40px 32px;
+      z-index: 99;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .mobile-nav.open { display: flex; }
+
+    .mobile-nav a {
+      padding: 14px 4px;
+      font-size: 17px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.75);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: color 0.2s;
+    }
+
+    .mobile-nav a:hover { color: var(--orange); }
+    .mobile-nav a:last-child { border-bottom: none; }
+
     /* ─── HERO ─── */
     .hero {
       min-height: 100vh;
-      background: linear-gradient(160deg, #0a0a0a 0%, #1a0a00 50%, #0d1a00 100%);
-      display: flex;
+      background: var(--black);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       align-items: center;
-      justify-content: center;
+      padding-top: 68px;
       position: relative;
       overflow: hidden;
-      padding-top: 72px;
     }
 
-    .hero-bg-pattern {
+    .hero-noise {
       position: absolute;
       inset: 0;
-      background-image:
-        radial-gradient(circle at 20% 50%, rgba(247,148,29,0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(163,211,57,0.06) 0%, transparent 40%),
-        radial-gradient(circle at 60% 80%, rgba(227,27,27,0.05) 0%, transparent 40%);
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      opacity: 0.4;
+      pointer-events: none;
     }
 
-    .hero-grid-lines {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(247,148,29,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(247,148,29,0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }
-
-    .hero-content {
+    .hero-left {
+      padding: 80px 40px 80px 80px;
       position: relative;
       z-index: 2;
-      text-align: center;
-      padding: 60px 24px;
-      max-width: 900px;
     }
 
-    .hero-badge {
+    .hero-eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(247,148,29,0.15);
-      border: 1px solid rgba(247,148,29,0.4);
-      color: var(--orange-light);
-      padding: 8px 20px;
-      border-radius: 99px;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 32px;
-      letter-spacing: 1px;
-    }
-
-    .hero-badge::before {
-      content: '✦';
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
       color: var(--orange);
+      margin-bottom: 28px;
     }
 
-    .hero-logo-wrap {
-      margin-bottom: 32px;
-    }
-
-    .hero-logo-wrap img {
-      width: 180px;
-      height: 180px;
-      object-fit: contain;
-      filter: drop-shadow(0 0 40px rgba(247,148,29,0.4));
-      animation: float 4s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-12px); }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--orange);
     }
 
     .hero-title {
-      font-family: 'Cairo', sans-serif;
-      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 5.5vw, 5rem);
       font-weight: 900;
       color: var(--white);
-      line-height: 1.1;
-      margin-bottom: 20px;
-      letter-spacing: -1px;
+      line-height: 1.08;
+      letter-spacing: -1.5px;
+      margin-bottom: 24px;
     }
 
-    .hero-title .highlight {
-      background: linear-gradient(135deg, var(--orange), var(--orange-light), var(--green-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .hero-title .accent {
+      color: var(--orange);
     }
 
-    .hero-subtitle {
-      font-size: clamp(1rem, 2vw, 1.3rem);
-      color: rgba(255,255,255,0.65);
-      max-width: 560px;
-      margin: 0 auto 48px;
-      line-height: 1.8;
+    .hero-body {
+      font-size: 17px;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.5);
+      max-width: 440px;
+      margin-bottom: 48px;
     }
 
     .hero-actions {
       display: flex;
+      align-items: center;
       gap: 16px;
-      justify-content: center;
       flex-wrap: wrap;
     }
 
-    .btn-primary {
+    .btn {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      background: linear-gradient(135deg, var(--orange), var(--orange-deep));
-      color: var(--white);
-      padding: 16px 36px;
-      border-radius: 12px;
-      font-size: 17px;
+      justify-content: center;
+      font-family: var(--font-body);
       font-weight: 700;
-      text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.3s;
-      box-shadow: 0 4px 20px rgba(247,148,29,0.35);
+      font-size: 14px;
+      letter-spacing: 0.3px;
+      border-radius: var(--radius-sm);
+      height: 52px;
+      padding: 0 28px;
+      transition: all 0.25s var(--ease);
+      cursor: pointer;
+      border: none;
     }
 
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 36px rgba(247,148,29,0.5);
-    }
-
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: transparent;
+    .btn-fill {
+      background: var(--orange);
       color: var(--white);
-      padding: 16px 36px;
-      border-radius: 12px;
-      font-size: 17px;
-      font-weight: 600;
-      text-decoration: none;
-      border: 1.5px solid rgba(255,255,255,0.25);
-      transition: border-color 0.3s, background 0.3s;
     }
 
-    .btn-secondary:hover {
-      border-color: var(--orange);
-      background: rgba(247,148,29,0.08);
+    .btn-fill:hover {
+      background: var(--orange-deep);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(247,148,29,0.28);
     }
 
-    .hero-scroll {
+    .btn-ghost {
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(255,255,255,0.5);
+      color: var(--white);
+    }
+
+    .hero-right {
+      position: relative;
+      height: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-right-bg {
       position: absolute;
-      bottom: 32px;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,128,0,0.18) 0%, rgba(247,148,29,0.12) 60%, transparent 100%);
+    }
+
+    .hero-logo-frame {
+      position: relative;
+      z-index: 2;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-logo-frame::before {
+      content: '';
+      position: absolute;
+      inset: 16px;
+      border-radius: 50%;
+      border: 1px solid rgba(247,148,29,0.15);
+    }
+
+    .hero-logo-frame img {
+      width: 220px;
+      height: 220px;
+      object-fit: contain;
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 36px;
       left: 50%;
       transform: translateX(-50%);
+      z-index: 3;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-      color: rgba(255,255,255,0.4);
-      font-size: 12px;
-      animation: bounce 2s ease-in-out infinite;
+      gap: 10px;
     }
 
     .hero-scroll-line {
-      width: 1px; height: 40px;
-      background: linear-gradient(to bottom, transparent, var(--orange));
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(247,148,29,0.6));
+      animation: scrollAnim 2.4s ease-in-out infinite;
     }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(8px); }
-    }
-
-    /* ─── SECTION BASE ─── */
-    section { padding: 100px 24px; }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .section-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--orange);
-      font-size: 13px;
-      font-weight: 700;
+    .hero-scroll-label {
+      font-size: 10px;
       letter-spacing: 2px;
       text-transform: uppercase;
-      margin-bottom: 16px;
+      color: rgba(255,255,255,0.3);
     }
 
-    .section-tag::before {
+    @keyframes scrollAnim {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.1); }
+    }
+
+    /* ─── SECTION WRAPPER ─── */
+    .section {
+      padding: 110px 0;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 18px;
+    }
+
+    .section-label::before {
       content: '';
       display: block;
-      width: 24px; height: 2px;
+      width: 28px;
+      height: 1px;
       background: var(--orange);
     }
 
-    .section-heading {
-      font-family: 'Cairo', sans-serif;
-      font-size: clamp(2rem, 4vw, 3rem);
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
       font-weight: 800;
       line-height: 1.15;
-      color: var(--black);
+      letter-spacing: -0.5px;
       margin-bottom: 16px;
     }
 
-    .section-heading.white { color: var(--white); }
-
-    .section-sub {
-      font-size: 17px;
-      color: rgba(0,0,0,0.55);
-      max-width: 560px;
-      line-height: 1.8;
+    .section-desc {
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--text-muted);
+      max-width: 520px;
     }
-
-    .section-sub.white { color: rgba(255,255,255,0.6); }
 
     /* ─── ABOUT ─── */
     .about {
-      background: var(--white);
+      background: var(--off-white);
     }
 
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 80px;
+      gap: 100px;
       align-items: center;
     }
 
-    .about-visual {
+    .about-image-block {
       position: relative;
     }
 
-    .about-img-wrap {
+    .about-image-main {
       width: 100%;
-      aspect-ratio: 1;
-      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 50%, var(--orange) 100%);
-      border-radius: 24px;
+      aspect-ratio: 4/5;
+      background: linear-gradient(160deg, var(--green) 0%, var(--green-mid) 55%, var(--orange) 100%);
+      border-radius: var(--radius-lg);
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
       overflow: hidden;
-      box-shadow: 0 24px 60px rgba(0,128,0,0.2);
     }
 
-    .about-img-wrap img {
-      width: 75%;
-      height: 75%;
+    .about-image-main img {
+      width: 68%;
       object-fit: contain;
-      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.3));
+      filter: drop-shadow(0 8px 24px rgba(0,0,0,0.25));
     }
 
-    .about-float-card {
+    .about-tag {
       position: absolute;
-      bottom: -20px;
-      left: -20px;
+      bottom: -18px;
+      left: -18px;
       background: var(--white);
-      border-radius: 16px;
-      padding: 20px 24px;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      min-width: 200px;
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+      min-width: 180px;
     }
 
-    .about-float-icon {
-      width: 48px; height: 48px;
-      background: linear-gradient(135deg, var(--orange), var(--orange-deep));
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-    }
-
-    .about-float-text strong {
-      display: block;
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--black);
+    .about-tag-num {
+      font-family: var(--font-display);
+      font-size: 2.6rem;
+      font-weight: 900;
       line-height: 1;
+      color: var(--black);
+      margin-bottom: 4px;
     }
 
-    .about-float-text span {
+    .about-tag-text {
       font-size: 12px;
-      color: rgba(0,0,0,0.5);
+      color: var(--text-muted);
+      font-weight: 500;
     }
 
-    .about-features {
+    .about-content {
+      padding-bottom: 20px;
+    }
+
+    .about-list {
+      margin-top: 40px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      margin-top: 40px;
+      gap: 0;
     }
 
-    .about-feature {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px 20px;
-      background: #f9f9f9;
-      border-radius: 12px;
-      border-right: 3px solid var(--orange);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .about-feature:hover {
-      transform: translateX(-4px);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    }
-
-    .about-feature-icon {
-      font-size: 24px;
-      width: 44px; height: 44px;
-      background: linear-gradient(135deg, rgba(247,148,29,0.1), rgba(247,148,29,0.2));
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .about-feature-text strong {
-      display: block;
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 2px;
-    }
-
-    .about-feature-text span {
-      font-size: 13px;
-      color: rgba(0,0,0,0.5);
-    }
-
-    /* ─── MENU SECTION ─── */
-    .menu-section {
-      background: #0a0a0a;
-    }
-
-    .menu-header {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-
-    .menu-header .section-tag { justify-content: center; }
-    .menu-header .section-tag::before { display: none; }
-    .menu-header .section-tag::after {
-      content: '';
-      display: block;
-      width: 24px; height: 2px;
-      background: var(--orange);
-    }
-
-    .menu-categories {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 48px;
-    }
-
-    .menu-cat-btn {
-      padding: 10px 24px;
-      border-radius: 99px;
-      border: 1.5px solid rgba(255,255,255,0.15);
-      background: transparent;
-      color: rgba(255,255,255,0.6);
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: 'Tajawal', sans-serif;
-      transition: all 0.3s;
-    }
-
-    .menu-cat-btn.active,
-    .menu-cat-btn:hover {
-      background: linear-gradient(135deg, var(--orange), var(--orange-deep));
-      border-color: transparent;
-      color: var(--white);
-    }
-
-    .menu-grid {
+    .about-list-item {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 24px;
+      grid-template-columns: 48px 1fr;
+      gap: 20px;
+      align-items: start;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--warm-grey);
     }
 
-    .menu-card {
-      background: #161616;
-      border-radius: 20px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.06);
-      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    .about-list-item:first-child {
+      border-top: 1px solid var(--warm-grey);
     }
 
-    .menu-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-      border-color: rgba(247,148,29,0.3);
-    }
-
-    .menu-card-img {
-      width: 100%;
-      aspect-ratio: 4/3;
-      background: linear-gradient(135deg, var(--green-dark), var(--orange));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 60px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .menu-card-img::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 50%;
-      background: linear-gradient(to top, #161616, transparent);
-    }
-
-    .menu-card-body {
-      padding: 20px 24px;
-    }
-
-    .menu-card-name {
-      font-family: 'Cairo', sans-serif;
-      font-size: 18px;
+    .about-list-num {
+      font-family: var(--font-display);
+      font-size: 11px;
       font-weight: 700;
-      color: var(--white);
-      margin-bottom: 6px;
+      letter-spacing: 1px;
+      color: var(--orange);
+      padding-top: 3px;
     }
 
-    .menu-card-desc {
-      font-size: 13px;
-      color: rgba(255,255,255,0.45);
+    .about-list-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--black);
+    }
+
+    .about-list-body {
+      font-size: 14px;
+      color: var(--text-muted);
       line-height: 1.7;
-      margin-bottom: 16px;
     }
 
-    .menu-card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding-top: 16px;
+    /* ─── BAND ─── */
+    .band {
+      background: var(--black);
+      padding: 0;
+      overflow: hidden;
     }
 
-    .menu-card-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 12px;
-      color: var(--green-light);
-      background: rgba(164,211,57,0.1);
-      padding: 4px 12px;
-      border-radius: 99px;
-    }
-
-    .menu-card-order {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: linear-gradient(135deg, var(--orange), var(--orange-deep));
-      color: var(--white);
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: transform 0.2s;
-    }
-
-    .menu-card-order:hover { transform: scale(1.05); }
-
-    /* ─── STATS ─── */
-    .stats-section {
-      background: linear-gradient(135deg, var(--green-dark) 0%, #004d00 50%, #0d1a00 100%);
-      padding: 80px 24px;
-    }
-
-    .stats-grid {
+    .band-inner {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
     }
 
-    .stat-item {
-      text-align: center;
-      padding: 40px 24px;
+    .band-stat {
+      padding: 64px 40px;
+      border-left: 1px solid rgba(255,255,255,0.06);
       position: relative;
     }
 
-    .stat-item:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      left: 0; top: 20%; bottom: 20%;
-      width: 1px;
-      background: rgba(255,255,255,0.15);
-    }
+    .band-stat:last-child { border-left: none; }
 
-    .stat-num {
-      font-family: 'Cairo', sans-serif;
-      font-size: clamp(2.5rem, 5vw, 4rem);
+    .band-stat-num {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 4.5vw, 4rem);
       font-weight: 900;
       color: var(--white);
       line-height: 1;
       margin-bottom: 8px;
     }
 
-    .stat-num span {
-      color: var(--orange-light);
+    .band-stat-num sup {
+      font-size: 40%;
+      color: var(--orange);
+      vertical-align: super;
     }
 
-    .stat-label {
-      font-size: 14px;
-      color: rgba(255,255,255,0.65);
-      font-weight: 500;
+    .band-stat-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.5px;
     }
 
-    /* ─── WHY US ─── */
-    .why-section {
+    /* ─── MENU ─── */
+    .menu-section {
       background: var(--white);
+    }
+
+    .menu-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 56px;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .menu-filter {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      height: 38px;
+      padding: 0 18px;
+      background: transparent;
+      border: 1px solid var(--warm-grey);
+      border-radius: 99px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.22s;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--black);
+      border-color: var(--black);
+      color: var(--white);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--warm-grey);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .menu-item {
+      background: var(--white);
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: background 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 0; height: 3px;
+      background: var(--orange);
+      transition: width 0.4s var(--ease);
+    }
+
+    .menu-item:hover { background: #FAFAF8; }
+    .menu-item:hover::after { width: 100%; }
+
+    .menu-item-cat {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--green-mid);
+    }
+
+    .menu-item-name {
+      font-family: var(--font-display);
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--black);
+      letter-spacing: -0.3px;
+    }
+
+    .menu-item-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.75;
+      flex: 1;
+    }
+
+    .menu-item-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--warm-grey);
+    }
+
+    .menu-item-link {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--orange);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.25s;
+    }
+
+    .menu-item-link:hover { gap: 10px; }
+
+    .menu-item-link::after {
+      content: '\2190';
+    }
+
+    /* ─── WHY ─── */
+    .why-section {
+      background: var(--off-white);
     }
 
     .why-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-      margin-top: 60px;
+      gap: 24px;
+      margin-top: 64px;
     }
 
     .why-card {
-      padding: 36px 28px;
-      border-radius: 20px;
       background: var(--white);
-      border: 1.5px solid #f0f0f0;
-      transition: all 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .why-card::before {
-      content: '';
-      position: absolute;
-      top: 0; right: 0;
-      width: 80px; height: 80px;
-      border-radius: 0 20px 0 80px;
-      background: linear-gradient(135deg, var(--orange), var(--orange-deep));
-      opacity: 0;
-      transition: opacity 0.3s;
+      border-radius: var(--radius-md);
+      padding: 40px 32px;
+      border: 1px solid var(--warm-grey);
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s;
     }
 
     .why-card:hover {
-      border-color: var(--orange);
-      box-shadow: 0 12px 40px rgba(247,148,29,0.12);
-      transform: translateY(-4px);
+      transform: translateY(-5px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.07);
+      border-color: rgba(247,148,29,0.25);
     }
 
-    .why-card:hover::before { opacity: 1; }
-
-    .why-icon {
-      width: 64px; height: 64px;
-      background: linear-gradient(135deg, rgba(247,148,29,0.12), rgba(247,148,29,0.06));
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      margin-bottom: 24px;
-      border: 1px solid rgba(247,148,29,0.2);
-      transition: all 0.3s;
-    }
-
-    .why-card:hover .why-icon {
-      background: linear-gradient(135deg, var(--orange), var(--orange-deep));
-      border-color: transparent;
-    }
-
-    .why-title {
-      font-family: 'Cairo', sans-serif;
-      font-size: 19px;
+    .why-card-num {
+      font-family: var(--font-display);
+      font-size: 11px;
       font-weight: 700;
-      margin-bottom: 12px;
-      color: var(--black);
+      letter-spacing: 2px;
+      color: var(--orange);
+      margin-bottom: 28px;
     }
 
-    .why-text {
+    .why-card-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--black);
+      margin-bottom: 12px;
+      letter-spacing: -0.2px;
+    }
+
+    .why-card-body {
       font-size: 14px;
-      color: rgba(0,0,0,0.55);
+      color: var(--text-muted);
       line-height: 1.8;
     }
 
     /* ─── CONTACT ─── */
     .contact-section {
-      background: #080808;
+      background: var(--black);
     }
 
     .contact-grid {
       display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 60px;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 80px;
       align-items: start;
     }
 
-    .contact-info {
-      padding-top: 20px;
+    .contact-left {
+      padding-top: 8px;
     }
 
-    .contact-items {
+    .contact-details {
       display: flex;
       flex-direction: column;
-      gap: 24px;
-      margin-top: 40px;
+      gap: 0;
+      margin-top: 48px;
     }
 
-    .contact-item {
-      display: flex;
-      align-items: flex-start;
+    .contact-row {
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      display: grid;
+      grid-template-columns: 100px 1fr;
       gap: 16px;
+      align-items: start;
     }
 
-    .contact-item-icon {
-      width: 50px; height: 50px;
-      flex-shrink: 0;
-      background: rgba(247,148,29,0.1);
-      border: 1px solid rgba(247,148,29,0.25);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
+    .contact-row:first-child {
+      border-top: 1px solid rgba(255,255,255,0.07);
     }
 
-    .contact-item-body strong {
-      display: block;
-      font-size: 13px;
-      color: rgba(255,255,255,0.4);
-      font-weight: 600;
+    .contact-row-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 4px;
+      color: rgba(255,255,255,0.3);
+      padding-top: 2px;
     }
 
-    .contact-item-body a,
-    .contact-item-body p {
-      color: var(--white);
-      text-decoration: none;
+    .contact-row-value {
       font-size: 16px;
+      color: var(--white);
       font-weight: 500;
-      transition: color 0.3s;
+      line-height: 1.6;
     }
 
-    .contact-item-body a:hover { color: var(--orange); }
+    .contact-row-value a {
+      color: var(--white);
+      transition: color 0.2s;
+    }
 
-    .contact-wa-btn {
+    .contact-row-value a:hover { color: var(--orange); }
+
+    .contact-wa {
       display: inline-flex;
       align-items: center;
       gap: 10px;
+      margin-top: 40px;
+      height: 52px;
+      padding: 0 28px;
       background: #25D366;
       color: var(--white);
-      padding: 14px 28px;
-      border-radius: 12px;
-      font-size: 16px;
       font-weight: 700;
-      text-decoration: none;
-      margin-top: 32px;
-      transition: transform 0.2s, box-shadow 0.3s;
-      box-shadow: 0 4px 20px rgba(37,211,102,0.25);
+      font-size: 14px;
+      border-radius: var(--radius-sm);
+      transition: background 0.25s, transform 0.2s;
     }
 
-    .contact-wa-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 36px rgba(37,211,102,0.4);
+    .contact-wa:hover {
+      background: #1ebe5b;
+      transform: translateY(-2px);
     }
 
-    .map-container {
-      border-radius: 20px;
+    .contact-wa-icon {
+      width: 18px;
+      height: 18px;
+      fill: white;
+    }
+
+    .map-wrap {
+      border-radius: var(--radius-md);
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.06);
     }
 
-    .map-container iframe {
-      width: 100%;
-      height: 420px;
+    .map-wrap iframe {
       display: block;
+      width: 100%;
+      height: 460px;
       border: none;
     }
 
     /* ─── FOOTER ─── */
-    footer {
-      background: #000;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 60px 24px 32px;
+    .footer {
+      background: #080808;
+      padding: 72px 0 36px;
+      border-top: 1px solid rgba(255,255,255,0.05);
     }
 
-    .footer-grid {
-      max-width: 1200px;
-      margin: 0 auto;
+    .footer-top {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr;
-      gap: 60px;
-      padding-bottom: 48px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      margin-bottom: 32px;
+      gap: 80px;
+      padding-bottom: 64px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 36px;
     }
 
-    .footer-brand img {
-      height: 60px;
+    .footer-brand-logo {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
       margin-bottom: 20px;
     }
 
-    .footer-brand p {
+    .footer-brand-desc {
       font-size: 14px;
-      color: rgba(255,255,255,0.45);
-      line-height: 1.8;
-      max-width: 320px;
-    }
-
-    .footer-social {
-      display: flex;
-      gap: 12px;
-      margin-top: 24px;
-    }
-
-    .footer-social a {
-      width: 40px; height: 40px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      text-decoration: none;
-      transition: all 0.3s;
-    }
-
-    .footer-social a:hover {
-      background: var(--orange);
-      border-color: var(--orange);
+      line-height: 1.85;
+      color: rgba(255,255,255,0.4);
+      max-width: 300px;
     }
 
     .footer-col-title {
-      color: var(--white);
-      font-size: 15px;
+      font-size: 12px;
       font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
       margin-bottom: 20px;
     }
 
-    .footer-links {
+    .footer-col-links {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      list-style: none;
-    }
-
-    .footer-links a {
-      color: rgba(255,255,255,0.45);
-      text-decoration: none;
-      font-size: 14px;
-      transition: color 0.3s;
-    }
-
-    .footer-links a:hover { color: var(--orange); }
-
-    .footer-bottom {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
       gap: 12px;
     }
 
-    .footer-bottom p {
-      font-size: 13px;
-      color: rgba(255,255,255,0.3);
+    .footer-col-links a {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      transition: color 0.2s;
     }
 
-    .footer-bottom-badge {
+    .footer-col-links a:hover { color: var(--white); }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: rgba(255,255,255,0.25);
+    }
+
+    .footer-status {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -922,174 +912,184 @@
       color: rgba(255,255,255,0.3);
     }
 
-    .footer-bottom-badge span {
-      width: 8px; height: 8px;
-      background: #25D366;
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background: #22c55e;
       border-radius: 50%;
-      animation: pulse 2s infinite;
+      animation: pulse 2.5s ease-in-out infinite;
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.3); }
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(34,197,94,0); }
     }
 
-    /* ─── MOBILE NAV ─── */
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      top: 72px; left: 0; right: 0;
-      background: rgba(0,0,0,0.97);
-      backdrop-filter: blur(20px);
-      padding: 24px;
-      z-index: 998;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+    /* ─── REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
     }
 
-    .mobile-menu.open { display: flex; flex-direction: column; gap: 4px; }
-
-    .mobile-menu a {
-      color: rgba(255,255,255,0.8);
-      text-decoration: none;
-      font-size: 17px;
-      font-weight: 500;
-      padding: 14px 16px;
-      border-radius: 10px;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    .mobile-menu a:hover {
-      background: rgba(247,148,29,0.1);
-      color: var(--orange);
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
     }
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 991px) {
-      .about-grid { grid-template-columns: 1fr; gap: 48px; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .stat-item:nth-child(2)::after,
-      .stat-item:nth-child(4)::after { display: none; }
-      .why-grid { grid-template-columns: repeat(2, 1fr); }
-      .contact-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .container { padding: 0 24px; }
+      .nav-inner { padding: 0 24px; }
+
       .nav-links { display: none; }
       .hamburger { display: flex; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding-bottom: 80px;
+      }
+
+      .hero-left { padding: 60px 24px 40px; }
+
+      .hero-right {
+        min-height: 320px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 24px 60px;
+      }
+
+      .hero-logo-frame { width: 240px; height: 240px; }
+      .hero-logo-frame img { width: 160px; height: 160px; }
+      .hero-scroll-hint { display: none; }
+
+      .about-grid { grid-template-columns: 1fr; gap: 60px; }
+      .band-inner { grid-template-columns: repeat(2, 1fr); }
+      .band-stat { border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .band-stat:nth-child(odd) { border-left: none; }
+      .band-stat:nth-child(3),
+      .band-stat:nth-child(4) { border-bottom: none; }
+
+      .menu-grid { grid-template-columns: 1fr 1fr; }
+      .why-grid { grid-template-columns: 1fr 1fr; }
+      .contact-grid { grid-template-columns: 1fr; gap: 56px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 48px; }
     }
 
     @media (max-width: 640px) {
-      section { padding: 70px 16px; }
-      .navbar { padding: 0 20px; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .why-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
-      .hero-actions { flex-direction: column; align-items: center; }
+      .section { padding: 80px 0; }
+      .hero-title { font-size: 2.6rem; }
       .menu-grid { grid-template-columns: 1fr; }
-      .footer-bottom { flex-direction: column; text-align: center; }
+      .why-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 36px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .band-inner { grid-template-columns: 1fr 1fr; }
+      .about-grid { gap: 48px; }
+      .contact-row { grid-template-columns: 80px 1fr; }
     }
+
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <a href="#" class="navbar-logo">
-      <img src="logo.png" alt="المذاق الباهر" onerror="this.style.display='none'" />
-      <div class="navbar-logo-text">المذاق <span>الباهر</span></div>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#about">من نحن</a></li>
-      <li><a href="#menu">قائمة الطعام</a></li>
-      <li><a href="#why">لماذا نحن</a></li>
-      <li><a href="#contact">تواصل معنا</a></li>
-      <li><a href="https://wa.me/218912171924" class="nav-cta" target="_blank">اطلب الآن 🍽️</a></li>
-    </ul>
-    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <img src="logo.png" alt="المذاق الباهر" onerror="this.style.display='none'" />
+        <span class="nav-logo-name">المذاق <em>الباهر</em></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">من نحن</a></li>
+        <li><a href="#menu">القائمة</a></li>
+        <li><a href="#why">مميزاتنا</a></li>
+        <li><a href="#contact">تواصل معنا</a></li>
+        <li><a href="https://wa.me/218912171924" target="_blank" class="nav-cta">اطلب الآن</a></li>
+      </ul>
+      <button class="hamburger" onclick="toggleMobileNav()" aria-label="القائمة">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#about" onclick="closeMenu()">من نحن</a>
-    <a href="#menu" onclick="closeMenu()">قائمة الطعام</a>
-    <a href="#why" onclick="closeMenu()">لماذا نحن</a>
-    <a href="#contact" onclick="closeMenu()">تواصل معنا</a>
-    <a href="https://wa.me/218912171924" target="_blank">📱 اطلب الآن عبر واتساب</a>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#about"   onclick="closeMobileNav()">من نحن</a>
+    <a href="#menu"    onclick="closeMobileNav()">القائمة</a>
+    <a href="#why"     onclick="closeMobileNav()">مميزاتنا</a>
+    <a href="#contact" onclick="closeMobileNav()">تواصل معنا</a>
+    <a href="https://wa.me/218912171924" target="_blank">اطلب عبر واتساب</a>
   </div>
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-bg-pattern"></div>
-    <div class="hero-grid-lines"></div>
-    <div class="hero-content">
-      <div class="hero-badge">تجربة طعام استثنائية — ليبيا</div>
-      <div class="hero-logo-wrap">
-        <img src="logo.png" alt="Logo" onerror="this.style.display='none'" />
-      </div>
+    <div class="hero-noise"></div>
+    <div class="hero-left">
+      <div class="hero-eyebrow">مطعم ليبيا — طعام أصيل</div>
       <h1 class="hero-title">
-        <span class="highlight">المذاق الباهر</span><br />
-        حيث يلتقي الشوق بالطعم الأصيل
+        المذاق<br />
+        <span class="accent">الباهر</span>
       </h1>
-      <p class="hero-subtitle">
-        نقدم لكم أشهى الأطباق بأرقى المعايير، بمكونات طازجة يومياً وطهاة محترفين
+      <p class="hero-body">
+        وجهتك لأشهى الأطباق الليبية والعربية، محضرة يومياً بأجود المكونات الطازجة على يد طهاة ذوي خبرة حقيقية.
       </p>
       <div class="hero-actions">
-        <a href="https://wa.me/218912171924" target="_blank" class="btn-primary">
-          🍽️ اطلب الآن عبر واتساب
-        </a>
-        <a href="#menu" class="btn-secondary">
-          📋 تصفح القائمة
-        </a>
+        <a href="https://wa.me/218912171924" target="_blank" class="btn btn-fill">اطلب الآن</a>
+        <a href="#menu" class="btn btn-ghost">تصفح القائمة</a>
       </div>
     </div>
-    <div class="hero-scroll">
+    <div class="hero-right">
+      <div class="hero-right-bg"></div>
+      <div class="hero-logo-frame">
+        <img src="logo.png" alt="المذاق الباهر" onerror="this.style.display='none'" />
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
       <div class="hero-scroll-line"></div>
-      <span>اكتشف أكثر</span>
+      <span class="hero-scroll-label">اكتشف</span>
     </div>
   </section>
 
   <!-- ABOUT -->
-  <section class="about" id="about">
+  <section class="section about" id="about">
     <div class="container">
       <div class="about-grid">
-        <div class="about-visual">
-          <div class="about-img-wrap">
-            <img src="logo.png" alt="المذاق الباهر" onerror="this.style.fontSize='80px'; this.outerHTML='<span style=\'font-size:80px\'>🍽️</span>'" />
+        <div class="about-image-block">
+          <div class="about-image-main">
+            <img src="logo.png" alt="المذاق الباهر" onerror="this.style.display='none'" />
           </div>
-          <div class="about-float-card">
-            <div class="about-float-icon">🏆</div>
-            <div class="about-float-text">
-              <strong>+5000</strong>
-              <span>عميل سعيد</span>
-            </div>
+          <div class="about-tag">
+            <div class="about-tag-num">5000+</div>
+            <div class="about-tag-text">عميل راضٍ حتى اليوم</div>
           </div>
         </div>
-        <div class="about-content">
-          <div class="section-tag">من نحن</div>
-          <h2 class="section-heading">أكثر من مجرد طعام،<br />تجربة لا تُنسى</h2>
-          <p class="section-sub" style="margin-bottom:32px;">
-            في المذاق الباهر، نؤمن أن الطعام الجيد هو روح التجمعات. نحن هنا لنقدم لكم أفضل الأطباق الليبية والعربية بمحبة واهتمام حقيقي، باستخدام أجود المكونات وأسرار الطهي الأصيل.
+        <div class="about-content reveal">
+          <div class="section-label">من نحن</div>
+          <h2 class="section-title">أكثر من طعام.<br />تجربة تُذكر.</h2>
+          <p class="section-desc">
+            في المذاق الباهر نؤمن أن الطعام الجيد يصنع اللحظات. من وصفات الجدات إلى المطبخ الحديث، نقدم كل طبق بعناية وشغف حقيقيين.
           </p>
-          <div class="about-features">
-            <div class="about-feature">
-              <div class="about-feature-icon">🌿</div>
-              <div class="about-feature-text">
-                <strong>مكونات طازجة يومياً</strong>
-                <span>نختار أجود المكونات الطازجة كل يوم</span>
+          <div class="about-list">
+            <div class="about-list-item">
+              <span class="about-list-num">01</span>
+              <div>
+                <div class="about-list-title">مكونات طازجة يومياً</div>
+                <div class="about-list-body">نختار مكوناتنا كل صباح من أجود المصادر المحلية</div>
               </div>
             </div>
-            <div class="about-feature">
-              <div class="about-feature-icon">👨‍🍳</div>
-              <div class="about-feature-text">
-                <strong>طهاة محترفون</strong>
-                <span>فريق من أمهر الطهاة ذوي الخبرة</span>
+            <div class="about-list-item">
+              <span class="about-list-num">02</span>
+              <div>
+                <div class="about-list-title">طهاة محترفون</div>
+                <div class="about-list-body">فريق متخصص يجمع بين الأصالة والإتقان</div>
               </div>
             </div>
-            <div class="about-feature">
-              <div class="about-feature-icon">🚀</div>
-              <div class="about-feature-text">
-                <strong>توصيل سريع</strong>
-                <span>نصلك أينما كنت في أسرع وقت</span>
+            <div class="about-list-item">
+              <span class="about-list-num">03</span>
+              <div>
+                <div class="about-list-title">توصيل موثوق</div>
+                <div class="about-list-body">نصلك في أسرع وقت دون المساس بجودة الطعام</div>
               </div>
             </div>
           </div>
@@ -1098,202 +1098,178 @@
     </div>
   </section>
 
-  <!-- STATS -->
-  <div class="stats-section">
-    <div class="container">
-      <div class="stats-grid">
-        <div class="stat-item">
-          <div class="stat-num">+<span>5000</span></div>
-          <div class="stat-label">عميل سعيد</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">+<span>50</span></div>
-          <div class="stat-label">طبق متنوع</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">+<span>5</span></div>
-          <div class="stat-label">سنوات خبرة</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num"><span>100</span>%</div>
-          <div class="stat-label">رضا العملاء</div>
-        </div>
+  <!-- STATS BAND -->
+  <div class="band">
+    <div class="band-inner">
+      <div class="band-stat reveal">
+        <div class="band-stat-num">5000<sup>+</sup></div>
+        <div class="band-stat-label">عميل سعيد</div>
+      </div>
+      <div class="band-stat reveal">
+        <div class="band-stat-num">50<sup>+</sup></div>
+        <div class="band-stat-label">طبق متنوع</div>
+      </div>
+      <div class="band-stat reveal">
+        <div class="band-stat-num">5<sup>+</sup></div>
+        <div class="band-stat-label">سنوات خبرة</div>
+      </div>
+      <div class="band-stat reveal">
+        <div class="band-stat-num">100<sup>%</sup></div>
+        <div class="band-stat-label">رضا العملاء</div>
       </div>
     </div>
   </div>
 
   <!-- MENU -->
-  <section class="menu-section" id="menu">
+  <section class="section menu-section" id="menu">
     <div class="container">
       <div class="menu-header">
-        <div class="section-tag">قائمتنا</div>
-        <h2 class="section-heading white">أشهى الأطباق تنتظرك</h2>
-        <p class="section-sub white" style="margin:12px auto 0; text-align:center;">
-          تشكيلة واسعة من أطيب الأكلات الليبية والعربية
-        </p>
-      </div>
-      <div class="menu-categories">
-        <button class="menu-cat-btn active">الكل</button>
-        <button class="menu-cat-btn">مشاوي</button>
-        <button class="menu-cat-btn">أطباق رئيسية</button>
-        <button class="menu-cat-btn">حساء ومرق</button>
-        <button class="menu-cat-btn">مقبلات</button>
-        <button class="menu-cat-btn">حلويات</button>
+        <div>
+          <div class="section-label">قائمة الطعام</div>
+          <h2 class="section-title">اختر ما يشتهيه قلبك</h2>
+        </div>
+        <div class="menu-filter">
+          <button class="filter-btn active">الكل</button>
+          <button class="filter-btn">مشاوي</button>
+          <button class="filter-btn">رئيسي</button>
+          <button class="filter-btn">مرق</button>
+          <button class="filter-btn">حلويات</button>
+        </div>
       </div>
       <div class="menu-grid">
-        <div class="menu-card">
-          <div class="menu-card-img">🥩</div>
-          <div class="menu-card-body">
-            <div class="menu-card-name">مشاوي مشكلة</div>
-            <div class="menu-card-desc">تشكيلة من أشهى المشاوي المحضرة على الفحم بتوابل خاصة</div>
-            <div class="menu-card-footer">
-              <span class="menu-card-tag">⭐ الأكثر طلباً</span>
-              <a href="https://wa.me/218912171924" target="_blank" class="menu-card-order">اطلب الآن ←</a>
-            </div>
+        <div class="menu-item reveal">
+          <div class="menu-item-cat">مشاوي</div>
+          <div class="menu-item-name">مشاوي مشكلة</div>
+          <div class="menu-item-desc">تشكيلة من أشهى قطع اللحم والدجاج المشوي على الفحم بتوابلنا الخاصة</div>
+          <div class="menu-item-footer">
+            <a href="https://wa.me/218912171924" target="_blank" class="menu-item-link">اطلب الآن</a>
           </div>
         </div>
-        <div class="menu-card">
-          <div class="menu-card-img" style="background:linear-gradient(135deg,#8B4513,#D2691E)">🍲</div>
-          <div class="menu-card-body">
-            <div class="menu-card-name">كسكسي بالخضار</div>
-            <div class="menu-card-desc">الطبق الليبي الأصيل بخضروات طازجة ولحم طري ومرق شهي</div>
-            <div class="menu-card-footer">
-              <span class="menu-card-tag">🇱🇾 أصيل</span>
-              <a href="https://wa.me/218912171924" target="_blank" class="menu-card-order">اطلب الآن ←</a>
-            </div>
+        <div class="menu-item reveal">
+          <div class="menu-item-cat">رئيسي</div>
+          <div class="menu-item-name">كسكسي بالخضار</div>
+          <div class="menu-item-desc">الطبق الليبي الأصيل — كسكسي بخضروات طازجة ولحم طري في مرق غني</div>
+          <div class="menu-item-footer">
+            <a href="https://wa.me/218912171924" target="_blank" class="menu-item-link">اطلب الآن</a>
           </div>
         </div>
-        <div class="menu-card">
-          <div class="menu-card-img" style="background:linear-gradient(135deg,#1a4a1a,#2d7a2d)">🥗</div>
-          <div class="menu-card-body">
-            <div class="menu-card-name">سلطات طازجة</div>
-            <div class="menu-card-desc">مجموعة متنوعة من السلطات المحضرة من أطازج المكونات</div>
-            <div class="menu-card-footer">
-              <span class="menu-card-tag">🌿 صحي</span>
-              <a href="https://wa.me/218912171924" target="_blank" class="menu-card-order">اطلب الآن ←</a>
-            </div>
+        <div class="menu-item reveal">
+          <div class="menu-item-cat">رئيسي</div>
+          <div class="menu-item-name">دجاج بالفرن</div>
+          <div class="menu-item-desc">دجاج كامل متبل بمزيج التوابل الليبية مع أرز بسمتي وخضار مشوية</div>
+          <div class="menu-item-footer">
+            <a href="https://wa.me/218912171924" target="_blank" class="menu-item-link">اطلب الآن</a>
           </div>
         </div>
-        <div class="menu-card">
-          <div class="menu-card-img" style="background:linear-gradient(135deg,#3d1a00,#8b3a00)">🍗</div>
-          <div class="menu-card-body">
-            <div class="menu-card-name">دجاج بالفرن</div>
-            <div class="menu-card-desc">دجاج متبل بتوابلنا السرية مع خضار شواء وأرز بسمتي</div>
-            <div class="menu-card-footer">
-              <span class="menu-card-tag">🔥 مميز</span>
-              <a href="https://wa.me/218912171924" target="_blank" class="menu-card-order">اطلب الآن ←</a>
-            </div>
+        <div class="menu-item reveal">
+          <div class="menu-item-cat">سلطات</div>
+          <div class="menu-item-name">سلطة طازجة</div>
+          <div class="menu-item-desc">مجموعة من السلطات الموسمية المحضرة من أطازج المكونات يومياً</div>
+          <div class="menu-item-footer">
+            <a href="https://wa.me/218912171924" target="_blank" class="menu-item-link">اطلب الآن</a>
           </div>
         </div>
-        <div class="menu-card">
-          <div class="menu-card-img" style="background:linear-gradient(135deg,#1a1a4d,#2d2d8b)">🍜</div>
-          <div class="menu-card-body">
-            <div class="menu-card-name">شوربة خضار</div>
-            <div class="menu-card-desc">شوربة كريمية دافئة بخضروات موسمية طازجة</div>
-            <div class="menu-card-footer">
-              <span class="menu-card-tag">🌡️ دافئ</span>
-              <a href="https://wa.me/218912171924" target="_blank" class="menu-card-order">اطلب الآن ←</a>
-            </div>
+        <div class="menu-item reveal">
+          <div class="menu-item-cat">مرق</div>
+          <div class="menu-item-name">شوربة الخضار</div>
+          <div class="menu-item-desc">شوربة كريمية دافئة من خضروات موسمية طازجة بلمسة توابل خفيفة</div>
+          <div class="menu-item-footer">
+            <a href="https://wa.me/218912171924" target="_blank" class="menu-item-link">اطلب الآن</a>
           </div>
         </div>
-        <div class="menu-card">
-          <div class="menu-card-img" style="background:linear-gradient(135deg,#4d3300,#996600)">🍮</div>
-          <div class="menu-card-body">
-            <div class="menu-card-name">حلويات شرقية</div>
-            <div class="menu-card-desc">تشكيلة من أشهى الحلويات العربية والليبية الأصيلة</div>
-            <div class="menu-card-footer">
-              <span class="menu-card-tag">🍯 أصيل</span>
-              <a href="https://wa.me/218912171924" target="_blank" class="menu-card-order">اطلب الآن ←</a>
-            </div>
+        <div class="menu-item reveal">
+          <div class="menu-item-cat">حلويات</div>
+          <div class="menu-item-name">حلويات شرقية</div>
+          <div class="menu-item-desc">تشكيلة من أشهى الحلويات العربية الأصيلة محضرة بعسل وسمن طبيعي</div>
+          <div class="menu-item-footer">
+            <a href="https://wa.me/218912171924" target="_blank" class="menu-item-link">اطلب الآن</a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- WHY US -->
-  <section class="why-section" id="why">
+  <!-- WHY -->
+  <section class="section why-section" id="why">
     <div class="container">
-      <div class="section-tag">مميزاتنا</div>
-      <h2 class="section-heading">لماذا يختارنا عملاؤنا؟</h2>
+      <div class="section-label">لماذا نحن</div>
+      <h2 class="section-title" style="max-width:420px;">ما يجعلنا مختلفين</h2>
       <div class="why-grid">
-        <div class="why-card">
-          <div class="why-icon">🌿</div>
-          <div class="why-title">طازج دائماً</div>
-          <div class="why-text">نلتزم باستخدام المكونات الطازجة فقط، لا مجمدات ولا حفظ كيميائي — طعامنا يُحضر يومياً بعناية</div>
+        <div class="why-card reveal">
+          <div class="why-card-num">01</div>
+          <div class="why-card-title">طازج كل يوم</div>
+          <div class="why-card-body">لا تجميد، لا إضافات. مكوناتنا تصل طازجة كل صباح ونبدأ الطهي من الصفر</div>
         </div>
-        <div class="why-card">
-          <div class="why-icon">⚡</div>
-          <div class="why-title">توصيل سريع</div>
-          <div class="why-text">نضمن وصول طلبك ساخناً وفي الوقت المحدد، لأن وقتك وجودة الطعام أهم ما يعنينا</div>
+        <div class="why-card reveal">
+          <div class="why-card-num">02</div>
+          <div class="why-card-title">وصفات موروثة</div>
+          <div class="why-card-body">وصفاتنا متوارثة بعناية مع لمسات عصرية تحفظ الطعم الأصيل الذي تحبه</div>
         </div>
-        <div class="why-card">
-          <div class="why-icon">💰</div>
-          <div class="why-title">أسعار منافسة</div>
-          <div class="why-text">جودة عالية بأسعار في متناول الجميع — نؤمن أن الطعام الجيد حق للجميع</div>
+        <div class="why-card reveal">
+          <div class="why-card-num">03</div>
+          <div class="why-card-title">سرعة التوصيل</div>
+          <div class="why-card-body">نضمن وصول طلبك ساخناً في الوقت المحدد لأن الوقت لك ثمين</div>
         </div>
-        <div class="why-card">
-          <div class="why-icon">🏆</div>
-          <div class="why-title">وصفات أصيلة</div>
-          <div class="why-text">وصفاتنا موروثة بعناية وتطويرها بلمسات عصرية تحافظ على الأصالة والطعم الفريد</div>
+        <div class="why-card reveal">
+          <div class="why-card-num">04</div>
+          <div class="why-card-title">أسعار منصفة</div>
+          <div class="why-card-body">جودة حقيقية بأسعار في المتناول — نؤمن أن الطعام الجيد حق للجميع</div>
         </div>
-        <div class="why-card">
-          <div class="why-icon">🧼</div>
-          <div class="why-title">نظافة تامة</div>
-          <div class="why-text">نلتزم بأعلى معايير النظافة والسلامة الغذائية في جميع مراحل التحضير</div>
+        <div class="why-card reveal">
+          <div class="why-card-num">05</div>
+          <div class="why-card-title">نظافة لا تهاون</div>
+          <div class="why-card-body">أعلى معايير السلامة الغذائية في كل مرحلة من مراحل التحضير</div>
         </div>
-        <div class="why-card">
-          <div class="why-icon">💬</div>
-          <div class="why-title">خدمة ودية</div>
-          <div class="why-text">فريقنا دائماً جاهز لمساعدتك والاستجابة لطلباتك بكل ترحيب وابتسامة</div>
+        <div class="why-card reveal">
+          <div class="why-card-num">06</div>
+          <div class="why-card-title">فريق متفانٍ</div>
+          <div class="why-card-body">فريقنا يعمل بشغف حقيقي ويرحب بكل طلب واستفسار من عملائنا</div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- CONTACT -->
-  <section class="contact-section" id="contact">
+  <section class="section contact-section" id="contact">
     <div class="container">
-      <div class="section-tag" style="color:var(--orange)">تواصل معنا</div>
-      <h2 class="section-heading white">نحن هنا من أجلك</h2>
-      <div class="contact-grid" style="margin-top:48px;">
-        <div class="contact-info">
-          <div class="contact-items">
-            <div class="contact-item">
-              <div class="contact-item-icon">📱</div>
-              <div class="contact-item-body">
-                <strong>واتساب / هاتف</strong>
-                <a href="https://wa.me/218912171924" target="_blank">0912171924</a>
+      <div class="contact-grid">
+        <div class="contact-left reveal">
+          <div class="section-label" style="color:var(--orange)">تواصل معنا</div>
+          <h2 class="section-title white" style="color:var(--white)">نحن هنا<br />لخدمتك</h2>
+          <div class="contact-details">
+            <div class="contact-row">
+              <span class="contact-row-label">هاتف</span>
+              <div class="contact-row-value">
+                <a href="tel:+218912171924">0912 171 924</a>
               </div>
             </div>
-            <div class="contact-item">
-              <div class="contact-item-icon">📧</div>
-              <div class="contact-item-body">
-                <strong>البريد الإلكتروني</strong>
+            <div class="contact-row">
+              <span class="contact-row-label">بريد</span>
+              <div class="contact-row-value">
                 <a href="mailto:info@almadhaqalbahir.com.ly">info@almadhaqalbahir.com.ly</a>
               </div>
             </div>
-            <div class="contact-item">
-              <div class="contact-item-icon">📍</div>
-              <div class="contact-item-body">
-                <strong>الموقع</strong>
-                <p>ليبيا — 32°25'13.6"N 14°45'41.4"E</p>
+            <div class="contact-row">
+              <span class="contact-row-label">موقع</span>
+              <div class="contact-row-value">
+                ليبيا — 32.4194°N 14.7615°E
               </div>
             </div>
-            <div class="contact-item">
-              <div class="contact-item-icon">🕐</div>
-              <div class="contact-item-body">
-                <strong>ساعات العمل</strong>
-                <p>السبت – الخميس: 9 صباحاً – 11 مساءً</p>
+            <div class="contact-row">
+              <span class="contact-row-label">أوقات</span>
+              <div class="contact-row-value">
+                السبت — الخميس<br />9:00 ص – 11:00 م
               </div>
             </div>
           </div>
-          <a href="https://wa.me/218912171924" target="_blank" class="contact-wa-btn">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            ابدأ المحادثة الآن
+          <a href="https://wa.me/218912171924" target="_blank" class="contact-wa">
+            <svg class="contact-wa-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+            </svg>
+            تواصل عبر واتساب
           </a>
         </div>
-        <div class="map-container">
+        <div class="map-wrap reveal">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d1683.987797187307!2d14.76111639748383!3d32.41981182795412!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzLCsDI1JzEzLjYiTiAxNMKwNDUnNDEuNCJF!5e0!3m2!1sar!2sly!4v1782120655135!5m2!1sar!2sly"
             allowfullscreen
@@ -1306,91 +1282,77 @@
   </section>
 
   <!-- FOOTER -->
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <img src="logo.png" alt="Logo" onerror="this.style.display='none'" />
-        <p>المذاق الباهر — وجهتك الأولى للطعام الأصيل واللذيذ في ليبيا. نقدم أشهى الأطباق بأجود المكونات الطازجة ولمسة من القلب.</p>
-        <div class="footer-social">
-          <a href="https://wa.me/218912171924" target="_blank" title="WhatsApp">💬</a>
-          <a href="mailto:info@almadhaqalbahir.com.ly" title="Email">📧</a>
-          <a href="#" title="Instagram">📸</a>
-          <a href="#" title="Facebook">👥</a>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <img src="logo.png" alt="المذاق الباهر" class="footer-brand-logo" onerror="this.style.display='none'" />
+          <p class="footer-brand-desc">المذاق الباهر — وجهتك لأشهى الأطباق الليبية والعربية. طعام أصيل بمكونات طازجة وقلب مفتوح.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">الموقع</div>
+          <ul class="footer-col-links">
+            <li><a href="#about">من نحن</a></li>
+            <li><a href="#menu">القائمة</a></li>
+            <li><a href="#why">مميزاتنا</a></li>
+            <li><a href="#contact">تواصل معنا</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">تواصل</div>
+          <ul class="footer-col-links">
+            <li><a href="tel:+218912171924">0912 171 924</a></li>
+            <li><a href="mailto:info@almadhaqalbahir.com.ly">info@almadhaqalbahir.com.ly</a></li>
+            <li><a href="https://wa.me/218912171924" target="_blank">واتساب</a></li>
+          </ul>
         </div>
       </div>
-      <div>
-        <div class="footer-col-title">روابط سريعة</div>
-        <ul class="footer-links">
-          <li><a href="#about">من نحن</a></li>
-          <li><a href="#menu">قائمة الطعام</a></li>
-          <li><a href="#why">مميزاتنا</a></li>
-          <li><a href="#contact">تواصل معنا</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">تواصل معنا</div>
-        <ul class="footer-links">
-          <li><a href="https://wa.me/218912171924" target="_blank">📱 0912171924</a></li>
-          <li><a href="mailto:info@almadhaqalbahir.com.ly">📧 info@almadhaqalbahir.com.ly</a></li>
-          <li><a href="#contact">📍 ليبيا</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2025 المذاق الباهر — جميع الحقوق محفوظة</p>
-      <div class="footer-bottom-badge">
-        <span></span>
-        متاح الآن للطلبات
+      <div class="footer-bottom">
+        <p class="footer-copy">2025 المذاق الباهر — جميع الحقوق محفوظة</p>
+        <div class="footer-status">
+          <span class="status-dot"></span>
+          متاح الآن للطلبات
+        </div>
       </div>
     </div>
   </footer>
 
   <script>
-    function toggleMenu() {
-      const m = document.getElementById('mobileMenu');
-      m.classList.toggle('open');
-    }
-    function closeMenu() {
-      document.getElementById('mobileMenu').classList.remove('open');
-    }
-
-    // Smooth active nav highlight
-    const sections = document.querySelectorAll('section[id]');
+    // Nav scroll
+    const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(s => {
-        if (window.scrollY >= s.offsetTop - 100) current = s.id;
-      });
-      document.querySelectorAll('.nav-links a').forEach(a => {
-        a.style.color = a.getAttribute('href') === '#' + current
-          ? 'var(--orange)' : '';
-      });
+      nav.classList.toggle('scrolled', window.scrollY > 24);
     });
 
-    // Menu category buttons
-    document.querySelectorAll('.menu-cat-btn').forEach(btn => {
+    // Mobile nav
+    function toggleMobileNav() {
+      document.getElementById('mobileNav').classList.toggle('open');
+    }
+    function closeMobileNav() {
+      document.getElementById('mobileNav').classList.remove('open');
+    }
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.menu-cat-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
       });
     });
 
     // Scroll reveal
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.style.opacity = '1';
-          e.target.style.transform = 'translateY(0)';
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, i * 80);
+          revealObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-    document.querySelectorAll('.why-card, .menu-card, .about-feature, .stat-item').forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(30px)';
-      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-      observer.observe(el);
-    });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
   </script>
 </body>
 </html>
